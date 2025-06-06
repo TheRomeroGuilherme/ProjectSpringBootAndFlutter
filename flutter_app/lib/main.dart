@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
 import 'dart:convert';
+import 'package:http/http.dart' as http; // Você pode remover esta linha depois
+import 'services/api_service.dart'; // <-- IMPORTE O NOVO SERVIÇO
+
 
 void main() {
   runApp(const MyApp());
@@ -28,29 +30,29 @@ class UserForm extends StatefulWidget {
 class _UserFormState extends State<UserForm> {
   final nomeController = TextEditingController();
   final cpfController = TextEditingController();
+  final dataNascimentoController = TextEditingController();
+  final apiService = ApiService();
+  String? _sexoSelecionado;
 
   Future<void> cadastrarUsuario() async {
-    final response = await http.post(
-      Uri.parse('http://localhost:8080/usuarios'),
-      headers: {'Content-Type': 'application/json'},
-      body: jsonEncode({
-        'nomeCompleto': nomeController.text,
-        'cpf': cpfController.text,
-        'dataNascimento': '2000-01-01',
-        'sexo': 'M',
-      }),
-    );
+    final userData = {
+      'nomeCompleto': nomeController.text,
+      'cpf': cpfController.text,
+      'dataNascimento': dataNascimentoController.text,
+      'sexo': _sexoSelecionado,
+    };
 
-    if (response.statusCode == 201) {
-      // ignore: use_build_context_synchronously
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Usuário cadastrado com sucesso!')),
-      );
-    } else {
-      // ignore: use_build_context_synchronously
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Erro: ${response.body}')),
-      );
+    try {
+    await apiService.cadastrarUsuario(userData); // <-- CHAME O MÉTODO DO SERVIÇO
+    // ignore: use_build_context_synchronously
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(content: Text('Usuário cadastrado com sucesso!')),
+    );
+    } catch (e) {
+    // ignore: use_build_context_synchronously
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text('Erro: ${e.toString()}')),
+    );
     }
   }
 
@@ -70,6 +72,29 @@ class _UserFormState extends State<UserForm> {
               controller: cpfController,
               decoration: const InputDecoration(labelText: 'CPF'),
             ),
+            // ADICIONE ESTE TEXTFIELD PARA DATA DE NASCIMENTO
+            TextField(
+              controller: dataNascimentoController,
+              decoration: const InputDecoration(labelText: 'Data de Nascimento (AAAA-MM-DD)'),
+              keyboardType: TextInputType.datetime,
+            ),
+            // ADICIONE ESTE DROPDOWN PARA SEXO
+            DropdownButtonFormField<String>(
+              value: _sexoSelecionado,
+              hint: const Text('Sexo'),
+              onChanged: (String? newValue) {
+                setState(() {
+                  _sexoSelecionado = newValue;
+                });
+              },
+              items: <String>['M', 'H'].map<DropdownMenuItem<String>>((String value) {
+                return DropdownMenuItem<String>(
+                  value: value,
+                  child: Text(value == 'M' ? 'Feminino' : 'Masculino'),
+                );
+              }).toList(),
+            ),
+            // FIM DA ADIÇÃO
             const SizedBox(height: 20),
             ElevatedButton(
               onPressed: cadastrarUsuario,
