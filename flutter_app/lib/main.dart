@@ -2,7 +2,6 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_app/pages/cadastro/cadastro_page.dart'; // Importa a nova página
-import 'package:flutter_app/pages/login/login_page.dart';
 import 'package:flutter_app/pages/listar/listar_page.dart';
 
 void main() {
