@@ -1,0 +1,48 @@
+### 1. Criar usuário
+POST http://localhost:8080/usuarios
+Content-Type: application/json
+
+{
+  "nomeCompleto": "Guilherme Romero da Rosa",
+  "cpf": "11122233344",
+  "dataNascimento": "2003-07-18",
+  "sexo": "H"
+}
+
+###
+
+### 2. Listar todos os usuários
+GET http://localhost:8080/usuarios
+
+###
+
+### 3. Buscar usuário por ID
+# Exemplo: id = 1 GET http://localhost:8080/usuarios/1
+
+###
+
+### 4. Buscar usuário por CPF
+# Exemplo: cpf = 11122233344
+GET http://localhost:8080/usuarios/cpf/11122233344
+
+###
+
+### 5. Atualizar usuário por ID
+# Exemplo: id = 1
+PUT http://localhost:8080/usuarios/1
+Content-Type: application/json
+
+{
+  "nomeCompleto": "Maria Souza Pereira",
+  "cpf": "11122233344",
+  "dataNascimento": "1992-08-15",
+  "sexo": "M"
+}
+
+###
+
+### 6. Excluir usuário por ID
+# Exemplo: id = 1
+DELETE http://localhost:8080/usuarios/1
+
+###
