@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'dart:convert';
-import 'package:http/http.dart' as http; // Você pode remover esta linha depois
 import 'services/api_service.dart'; // <-- IMPORTE O NOVO SERVIÇO
 
 
