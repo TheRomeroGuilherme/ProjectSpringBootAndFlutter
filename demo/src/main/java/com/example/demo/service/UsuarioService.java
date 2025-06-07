@@ -135,14 +135,10 @@ public class UsuarioService {
      * Exclui um usuário por ID.
      */
     // ADICIONE ESTE MÉTODO
-    public void excluirUsuarioPorCpf(String cpf) {
-        if (!usuarioRepository.existsByCpf(cpf)) {
-            throw new EntityNotFoundException("Não existe usuário com CPF " + cpf + " para exclusão.");
-        }
-        usuarioRepository.deleteByCpf(cpf);
-    }
-
     public void excluirUsuario(Long id) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
+        if (!usuarioRepository.existsById(id)) {
+            throw new EntityNotFoundException("Não existe usuário com id " + id + " para exclusão.");
+        }
+        usuarioRepository.deleteById(id);
+    }   
 }
