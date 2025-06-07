@@ -1,5 +1,3 @@
-// Conteúdo completo e corrigido para: lib/services/api_service.dart
-
 import 'package:flutter_app/models/usuario_model.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -18,8 +16,6 @@ class ApiService {
       throw Exception('Falha ao cadastrar usuário: ${response.body}');
     }
   }
-
-  // ✅ MÉTODO PARA LISTAR (Read) - IMPLEMENTADO
   Future<List<Usuario>> getUsuarios() async {
     final response = await http.get(Uri.parse('$_baseUrl/usuarios'));
 
@@ -51,11 +47,15 @@ class ApiService {
 
   // MÉTODO para DELETAR (Delete)
   Future<void> excluirUsuario(int id) async {
-    final response = await http.delete(Uri.parse('$_baseUrl/usuarios/$id'));
-    if (response.statusCode != 200) {
-      throw Exception('Falha ao excluir usuário');
-    }
+  final response = await http.delete(
+    Uri.parse('$_baseUrl/usuarios/$id'),
+  );
+
+  // Seu backend retorna 200 OK em caso de sucesso na exclusão.
+  if (response.statusCode != 200) {
+    throw Exception('Falha ao excluir usuário');
   }
+}
 
   // Você mencionou a exclusão por CPF, podemos adicionar esse método também
   // se ele estiver implementado no seu backend.

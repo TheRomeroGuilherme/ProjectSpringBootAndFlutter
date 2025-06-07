@@ -1,20 +1,16 @@
-// Conteúdo para: lib/pages/listar_page.dart
-
 import 'package:flutter/material.dart';
-import 'package:flutter_app/models/usuario_model.dart';
-import 'package:flutter_app/pages/cadastro_page.dart';
-import 'package:flutter_app/services/api_service.dart';
+import '../models/usuario_model.dart';
+import '../pages/cadastro_page.dart';
+import '../services/api_service.dart';
 
-// O NOME DA CLASSE FOI ALTERADO AQUI
 class ListarPage extends StatefulWidget {
   const ListarPage({super.key});
 
   @override
-  // E AQUI
   State<ListarPage> createState() => _ListarPageState();
 }
 
-// E AQUI
+
 class _ListarPageState extends State<ListarPage> {
   final ApiService _apiService = ApiService();
   late Future<List<Usuario>> _funcionarios;
@@ -36,13 +32,12 @@ class _ListarPageState extends State<ListarPage> {
       context,
       MaterialPageRoute(builder: (context) => CadastroPage(usuario: usuario)),
     );
-
     if (result == true) {
       _refreshFuncionarioList();
     }
   }
 
-  void _excluirFuncionario(int id) {
+  void _confirmarExclusao(int id) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -52,10 +47,12 @@ class _ListarPageState extends State<ListarPage> {
           actions: <Widget>[
             TextButton(
               child: const Text('Cancelar'),
-              onPressed: () => Navigator.of(context).pop(),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
             ),
             TextButton(
-              child: const Text('Excluir'),
+              child: const Text('Excluir', style: TextStyle(color: Colors.red)),
               onPressed: () async {
                 Navigator.of(context).pop();
                 try {
@@ -93,6 +90,7 @@ class _ListarPageState extends State<ListarPage> {
           if (!snapshot.hasData || snapshot.data!.isEmpty) {
             return const Center(child: Text('Nenhum funcionário cadastrado.'));
           }
+
           final funcionarios = snapshot.data!;
           return ListView.builder(
             itemCount: funcionarios.length,
@@ -112,7 +110,7 @@ class _ListarPageState extends State<ListarPage> {
                       ),
                       IconButton(
                         icon: const Icon(Icons.delete, color: Colors.red),
-                        onPressed: () => _excluirFuncionario(funcionario.id),
+                        onPressed: () => _confirmarExclusao(funcionario.id),
                       ),
                     ],
                   ),

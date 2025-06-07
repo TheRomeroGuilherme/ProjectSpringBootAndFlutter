@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -21,6 +22,7 @@ import jakarta.persistence.EntityNotFoundException;
 
 @RestController
 @RequestMapping("/usuarios")
+@CrossOrigin(origins = "*")
 public class UsuarioController {
 
     @Autowired
@@ -97,11 +99,13 @@ public class UsuarioController {
      * Ao final, retorna a lista atualizada de usuários ("organizar os usuários").
      */
    // ADICIONE ESTE ENDPOINT
-    @DeleteMapping("/cpf/{cpf}")
-    public ResponseEntity<Void> excluirUsuarioPorCpf(@PathVariable String cpf) {
+    @DeleteMapping("/{id}")
+    public ResponseEntity<List<Usuario>> excluirUsuario(@PathVariable Long id) {
         try {
-            usuarioService.excluirUsuarioPorCpf(cpf);
-            return ResponseEntity.noContent().build(); // Retorna 204 No Content
+            usuarioService.excluirUsuario(id);
+            // Depois de excluir, retorna lista atualizada
+            List<Usuario> listaAtualizada = usuarioService.listarTodosUsuarios();
+            return ResponseEntity.ok(listaAtualizada);
         } catch (EntityNotFoundException e) {
             return ResponseEntity.notFound().build();
         }

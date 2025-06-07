@@ -59,11 +59,12 @@ class _CadastroPageState extends State<CadastroPage> {
         ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(content: Text('Funcionário atualizado com sucesso!')));
         Navigator.of(context).pop(true); 
-      } else {
+      }else {
         await _apiService.cadastrarUsuario(userData);
         ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(content: Text('Funcionário cadastrado com sucesso!')));
-        
+
+        // Verifique se aqui está chamando a 'ListarPage'
         Navigator.of(context).pushReplacement(
             MaterialPageRoute(builder: (context) => const ListarPage()));
       }

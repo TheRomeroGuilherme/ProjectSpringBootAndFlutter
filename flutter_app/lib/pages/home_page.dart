@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app/pages/cadastro_page.dart';
 import 'package:flutter_app/pages/listar_page.dart';
 
 class HomePage extends StatelessWidget {

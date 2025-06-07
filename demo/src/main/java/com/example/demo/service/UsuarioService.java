@@ -20,13 +20,6 @@ public class UsuarioService {
     @Autowired
     private UsuarioRepository usuarioRepository;
 
-    /**
-     * Cria um novo usuário com base no DTO.
-     * Validações:
-     * - CPF não pode estar duplicado.
-     * - Idade (a partir de dataNascimento) deve ser >= 18.
-     * - Sexo deve ser "M" (mulher) ou "H" (homem).
-     */
     public Usuario criarUsuario(UsuarioDTO dto) {
         // 1) CPF único
         if (usuarioRepository.existsByCpf(dto.getCpf())) {
@@ -147,5 +140,9 @@ public class UsuarioService {
             throw new EntityNotFoundException("Não existe usuário com CPF " + cpf + " para exclusão.");
         }
         usuarioRepository.deleteByCpf(cpf);
+    }
+
+    public void excluirUsuario(Long id) {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 }
