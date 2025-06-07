@@ -96,15 +96,15 @@ public class UsuarioController {
      * Exclui um usuário por ID. 
      * Ao final, retorna a lista atualizada de usuários ("organizar os usuários").
      */
-    @DeleteMapping("/{id}")
-    public ResponseEntity<List<Usuario>> excluirUsuario(@PathVariable Long id) {
+   // ADICIONE ESTE ENDPOINT
+    @DeleteMapping("/cpf/{cpf}")
+    public ResponseEntity<Void> excluirUsuarioPorCpf(@PathVariable String cpf) {
         try {
-            usuarioService.excluirUsuario(id);
-            // Depois de excluir, retorna lista atualizada
-            List<Usuario> listaAtualizada = usuarioService.listarTodosUsuarios();
-            return ResponseEntity.ok(listaAtualizada);
+            usuarioService.excluirUsuarioPorCpf(cpf);
+            return ResponseEntity.noContent().build(); // Retorna 204 No Content
         } catch (EntityNotFoundException e) {
             return ResponseEntity.notFound().build();
         }
     }
 }
+

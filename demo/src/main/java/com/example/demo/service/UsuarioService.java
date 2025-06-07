@@ -56,6 +56,7 @@ public class UsuarioService {
         novo.setCpf(dto.getCpf());
         novo.setDataNascimento(dto.getDataNascimento());
         novo.setSexo(sexo.toUpperCase());
+        novo.setDataCadastro(LocalDate.now()); 
 
         return usuarioRepository.save(novo);
     }
@@ -140,10 +141,11 @@ public class UsuarioService {
     /**
      * Exclui um usuário por ID.
      */
-    public void excluirUsuario(Long id) {
-        if (!usuarioRepository.existsById(id)) {
-            throw new EntityNotFoundException("Não existe usuário com id " + id + " para exclusão.");
+    // ADICIONE ESTE MÉTODO
+    public void excluirUsuarioPorCpf(String cpf) {
+        if (!usuarioRepository.existsByCpf(cpf)) {
+            throw new EntityNotFoundException("Não existe usuário com CPF " + cpf + " para exclusão.");
         }
-        usuarioRepository.deleteById(id);
+        usuarioRepository.deleteByCpf(cpf);
     }
 }

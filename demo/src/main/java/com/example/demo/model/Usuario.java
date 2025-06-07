@@ -39,6 +39,9 @@ public class Usuario {
     @Column(name = "sexo", nullable = false, length = 1)
     private String sexo;
 
+    @Column(name = "data_cadastro")
+    private LocalDate dataCadastro;
+
     
     @Transient
     public int getIdade() {
@@ -52,8 +55,5 @@ public class Usuario {
         this.nomeCompleto = dto.getNomeCompleto();
         this.dataNascimento = dto.getDataNascimento();
         this.sexo = dto.getSexo();
-        // Observação: se fosse permitido atualizar CPF, retirar comentário abaixo;
-        // por ora, mantém o CPF original para evitar duplicidade. 
-        // this.cpf = dto.getCpf();
     }
 }
